@@ -9,7 +9,7 @@ import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
 const Nav = () => {
   return (
-    <section className="text-white h-screen  w-[330px] flex items-center justify-between flex-col border-r-[1px] border-DarkGray">
+    <section className="bg-Body text-white h-screen  lg:w-[330px] sm:hidden lg:flex items-center justify-between flex-col border-r-[1px] border-DarkGray lg:fixed ">
       <article className="w-2/3 h-auto  flex items-start text-2xl  flex-col ">
         <div className="text-white p-[14px]">
           <ion-icon name="logo-twitter" size="large"></ion-icon>

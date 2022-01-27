@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons";
+
+import { Tweets } from "./Tweets.js";
+
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
-import { faRetweet } from "@fortawesome/free-solid-svg-icons";
+import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Tweet = () => {
+  const [personsTweet, setTweets] = useState(Tweets);
   return (
-    <section className="h-full w-[580px] border-r-[1px] border-DarkGray">
-      <div className="text-2xl w-full p-5 sticky text-white font-bold flex justify-between items-center ">
+    <section className="h-full lg:w-[580px] sm:w-full border-r-[1px] border-DarkGray lg:ml-[330px]">
+      <div className="text-2xl w-full p-5 text-white font-bold flex justify-between items-center">
         <h1 className="cursor-pointer">Home</h1>
         <div className="cursor-pointer hover:bg-DarkGray  hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
           <ion-icon name="sparkles-outline"></ion-icon>
         </div>
       </div>
-      <article className="w-full flex border-b-[1px] border-DarkGray">
+      <article className="w-full lg:flex sm:hidden border-b-[1px] border-DarkGray">
         <div className="w-1/6 h-full flex items-center justify-center">
           <img
             src="https://www.gravatar.com/avatar/1b8fabaa8d66250a7049bdb9ecf44397?s=250&d=mm&r=x"
@@ -57,76 +61,82 @@ const Tweet = () => {
           </div>
         </div>
       </article>
-      <MainContent />
+      {personsTweet.map((items) => {
+        const { id, name, userName, image, likes, retweets, comment, tweet } =
+          items;
+        return (
+          <article
+            key={id}
+            className="w-full flex p-3.5 hover:bg-DarkGray  hover:bg-opacity-10 duration-150 cursor-pointer border-b-[1px] border-DarkGray"
+          >
+            <div className="lg:w-1/6 sm:w-3/12 h-full flex items-center justify-center">
+              <img
+                src={image}
+                alt="#"
+                className="mr-[5px] w-[50px] h-[50px] rounded-full hover:opacity-90 cursor-pointer"
+              />
+            </div>
+            <div className="lg:w-5/6 sm:w-9/12">
+              <header className="flex items-center w-full  p-1">
+                <h2 className=" md:flex sm:hidden text-white font-semibold lg:text-xl sm:text-lg hover:underline mr-[5px]">
+                  {name}
+                </h2>
+                <h2 className=" sm:flex md:hidden text-white font-semibold lg:text-xl sm:text-lg hover:underline mr-[5px]">
+                  {name.length > 10 ? `${name.substring(0, 9)}...` : name}{" "}
+                </h2>
+
+                <p className="text-DarkGray font-normal lg:text-lg sm:text-md no-underline mr-1">
+                  {userName.length > 7
+                    ? `${userName.substring(0, 6)}...`
+                    : userName}{" "}
+                  •
+                </p>
+
+                <p className="text-DarkGray font-normal hover:underline">
+                  6m ago
+                </p>
+              </header>
+              <div className=" w-full p-1 mb-2">
+                <p className="text-white font-normal">{tweet}</p>
+              </div>
+
+              <div className="lg:w-11/12 sm:w-full flex items-center justify-between lg:p-2 sm:p-1">
+                <button className="flex items-center text-DarkGray hover:text-Primary">
+                  <span className="text-DarkGray hover:text-Primary lg:text-2xl sm:text-xl hover:bg-Primary hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
+                    <ion-icon name="chatbubble-outline"></ion-icon>
+                  </span>
+                  <p className="text-sm">{comment}</p>
+                </button>
+                <button className="flex items-center text-DarkGray hover:text-Green">
+                  <span className="text-DarkGray hover:text-Green  lg:text-2xl sm:text-xl hover:bg-Green hover:bg-opacity-20 rounded-full px-[10px] py-[12px] flex items-center justify-center duration-150">
+                    <FontAwesomeIcon icon={faExchangeAlt}></FontAwesomeIcon>
+                  </span>
+                  <p className="text-sm">{retweets}</p>
+                </button>
+                <button className="flex items-center text-DarkGray hover:text-Pink">
+                  <span className="text-DarkGray hover:text-Pink lg:text-2xl sm:text-xl hover:bg-Pink hover:bg-opacity-20 rounded-full p-[10px] flex items-center justify-center duration-150 ">
+                    <ion-icon name="heart-outline"></ion-icon>
+                  </span>
+                  <p className="text-sm ">{likes}</p>
+                </button>
+                <button>
+                  <span>
+                    <button>
+                      <span className="text-DarkGray hover:text-Primary lg:text-2xl sm:text-xl hover:bg-Primary hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
+                        <ion-icon name="share-social-outline"></ion-icon>
+                      </span>
+                    </button>
+                  </span>
+                </button>
+              </div>
+            </div>
+            <div className=" h-full text-DarkGray cursor-pointer hover:bg-DarkGray  hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
+              <FontAwesomeIcon icon={faEllipsisH}></FontAwesomeIcon>
+            </div>
+          </article>
+        );
+      })}
     </section>
-  );
-};
-
-const MainContent = () => {
-  return (
-    <article className="w-full flex p-3.5 hover:bg-DarkGray  hover:bg-opacity-10 duration-150 cursor-pointer border-b-[1px] border-DarkGray">
-      {/* User Picture */}
-      <div className="w-1/6 h-full flex items-center justify-center">
-        <img
-          src="https://www.gravatar.com/avatar/1b8fabaa8d66250a7049bdb9ecf44397?s=250&d=mm&r=x"
-          alt="#"
-          className="mr-[5px] w-[50px] h-[50px] rounded-full hover:opacity-90 cursor-pointer"
-        />
-      </div>
-      <div className="w-5/6">
-        {/* Name and userName */}
-        <header className="flex items-center w-full  p-1">
-          <h2 className="text-white font-semibold text-xl hover:underline mr-[5px]">
-            Premier League
-          </h2>
-
-          <p className="text-DarkGray font-normal text-lg no-underline mr-1">
-            @premierleague •
-          </p>
-
-          <p className="text-DarkGray font-normal hover:underline"> 6m</p>
-        </header>
-        {/* Tweet Content */}
-        <div className=" w-full p-1 mb-2">
-          {" "}
-          <p className="text-white font-normal">
-            Last stadium you visited: <br /> Best stadium you've visited: <br />{" "}
-            Dream stadium to visit:
-          </p>
-        </div>
-        {/* Likes, Retweets , Comments and Share */}
-        <div className="w-11/12 flex items-center justify-between p-2">
-          <button>
-            <span className="text-DarkGray hover:text-Primary text-2xl hover:bg-Primary hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
-              <ion-icon name="chatbubble-outline"></ion-icon>
-            </span>
-          </button>
-          <button>
-            <span className="text-DarkGray hover:text-Green text-xl hover:bg-Green hover:bg-opacity-20 rounded-full px-[10px] py-[12px] flex items-center justify-center duration-150">
-              <FontAwesomeIcon icon={faRetweet}></FontAwesomeIcon>
-            </span>
-          </button>
-          <button>
-            <span className="text-DarkGray hover:text-Pink text-2xl hover:bg-Pink hover:bg-opacity-20 rounded-full p-[10px] flex items-center justify-center duration-150 ">
-              <ion-icon name="heart-outline"></ion-icon>
-            </span>
-          </button>
-          <button>
-            <span>
-              <button>
-                <span className="text-DarkGray hover:text-Primary text-2xl hover:bg-Primary hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
-                  <ion-icon name="share-outline"></ion-icon>
-                </span>
-              </button>
-            </span>
-          </button>
-        </div>
-      </div>
-      {/* More Button */}
-      <div className=" h-full text-DarkGray cursor-pointer hover:bg-DarkGray  hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
-        <FontAwesomeIcon icon={faEllipsisH}></FontAwesomeIcon>
-      </div>
-    </article>
   );
 };
 

@@ -17,6 +17,12 @@ module.exports = {
     fontFamily: {
       Roboto: ["Roboto, sans-serif"],
     },
+    screens: {
+      sm: "320px",
+      md: "768px",
+      lg: "976px",
+      xl: "1440px",
+    },
   },
   variants: {
     extend: {},
