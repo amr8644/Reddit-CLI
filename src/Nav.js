@@ -7,7 +7,10 @@ import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 
+
 const Nav = () => {
+ 
+
   return (
     <section className="bg-Body text-white h-screen  lg:w-[330px] sm:hidden lg:flex items-center justify-between flex-col border-r-[1px] border-DarkGray lg:fixed ">
       <article className="w-2/3 h-auto  flex items-start text-2xl  flex-col ">
