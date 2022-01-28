@@ -7,6 +7,8 @@ import { Tweets } from "./Tweets.js";
 
 import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
+import { faFeatherAlt } from "@fortawesome/free-solid-svg-icons";
+
 import SideNav from "./SideNav.js";
 
 const Tweet = () => {
@@ -21,8 +23,8 @@ const Tweet = () => {
   return (
     <>
       {showNav && <SideNav toggle={toggle} />}
-      <section className="h-full lg:w-[580px] sm:w-full border-r-[1px] border-DarkGray lg:ml-[330px]">
-        <div className="text-2xl w-full p-5 text-white font-bold flex justify-between items-center">
+      <section className="relative h-full lg:w-[580px] sm:w-full border-r-[1px] border-DarkGray lg:ml-[330px]">
+        <div className="bg-Body z-20 text-2xl w-full p-2 text-white font-bold flex justify-between items-center border-b-[1px] border-DarkGray ">
           <img
             src="https://www.gravatar.com/avatar/1b8fabaa8d66250a7049bdb9ecf44397?s=250&d=mm&r=x"
             alt="#"
@@ -156,6 +158,11 @@ const Tweet = () => {
           );
         })}
       </section>
+      {!showNav && (
+        <button className="fixed z-30 bg-Primary text-ExtraExtraLightGray w-[60px] h-[60px] rounded-full shadow-lg bottom-[50px] right-[30px] text-2xl flex items-center justify-center">
+          <FontAwesomeIcon icon={faFeatherAlt}></FontAwesomeIcon>
+        </button>
+      )}
     </>
   );
 };
