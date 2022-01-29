@@ -9,6 +9,11 @@ import { faEllipsisH } from "@fortawesome/free-solid-svg-icons";
 import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import { faFeatherAlt } from "@fortawesome/free-solid-svg-icons";
 
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faBell } from "@fortawesome/free-regular-svg-icons";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+
 import SideNav from "./SideNav.js";
 
 const Tweet = () => {
@@ -19,12 +24,30 @@ const Tweet = () => {
     setNavShow(!showNav);
   };
 
-  console.log(showNav);
   return (
     <>
       {showNav && <SideNav toggle={toggle} />}
-      <section className="relative h-full lg:w-[580px] sm:w-full border-r-[1px] border-DarkGray lg:ml-[330px]">
-        <div className="bg-Body z-20 text-2xl w-full p-2 text-white font-bold flex justify-between items-center border-b-[1px] border-DarkGray ">
+
+      <section className="relative h-full lg:w-[580px] sm:w-full  border-r-[1px] border-DarkGray lg:ml-[330px]">
+        <div className="lg:w-[580px] lg:hidden sm:w-full sm:flex z-30  border-t-[1px] border-DarkGray items-center justify-around fixed bottom-0 left-0 bg-Body py-5 text-white text-2xl lg:ml-[330px]">
+          <FontAwesomeIcon
+            icon={faHome}
+            className="cursor-pointer hover:text-Primary  h-full duration-150 "
+          ></FontAwesomeIcon>
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="cursor-pointer hover:text-Primary  h-full duration-150 "
+          ></FontAwesomeIcon>
+          <FontAwesomeIcon
+            icon={faBell}
+            className="cursor-pointer hover:text-Primary  h-full duration-150 "
+          ></FontAwesomeIcon>
+          <FontAwesomeIcon
+            icon={faEnvelope}
+            className="cursor-pointer hover:text-Primary  h-full duration-150 "
+          ></FontAwesomeIcon>
+        </div>
+        <div className="bg-Body z-20 text-2xl w-full lg:p-6 sm:p-2 text-white font-bold flex justify-between items-center sm:border-b-[1px] sm:border-DarkGray lg:border-0">
           <img
             src="https://www.gravatar.com/avatar/1b8fabaa8d66250a7049bdb9ecf44397?s=250&d=mm&r=x"
             alt="#"
@@ -32,7 +55,7 @@ const Tweet = () => {
             className="w-[45px] h-[45px] rounded-full hover:opacity-90 cursor-pointer lg:hidden sm:flex"
           />
           <h1 className="cursor-pointer sm:hidden lg:flex">Home</h1>
-          <div className="text-white p-[8px]">
+          <div className="text-white p-[8px] sm:flex lg:hidden">
             <ion-icon name="logo-twitter" size="large"></ion-icon>
           </div>
           <div className="cursor-pointer hover:bg-DarkGray  hover:bg-opacity-20 rounded-full p-[10px]  flex items-center justify-center duration-150 ">
@@ -157,9 +180,15 @@ const Tweet = () => {
             </article>
           );
         })}
+        <div className="w-full sm:flex  fixed bg-Pink">
+          <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faBell}></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faEnvelope}></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
+        </div>
       </section>
       {!showNav && (
-        <button className="fixed z-30 bg-Primary text-ExtraExtraLightGray w-[60px] h-[60px] rounded-full shadow-lg bottom-[50px] right-[30px] text-2xl flex items-center justify-center">
+        <button className="fixed z-30 bg-Primary text-ExtraExtraLightGray w-[60px] h-[60px] rounded-full shadow-lg bottom-[70px] right-[25px] text-2xl lg:hidden sm:flex items-center justify-center">
           <FontAwesomeIcon icon={faFeatherAlt}></FontAwesomeIcon>
         </button>
       )}
