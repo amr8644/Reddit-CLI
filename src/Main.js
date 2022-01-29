@@ -28,25 +28,30 @@ const Tweet = () => {
     <>
       {showNav && <SideNav toggle={toggle} />}
 
-      <section className="relative h-full lg:w-[580px] sm:w-full  border-r-[1px] border-DarkGray lg:ml-[330px]">
-        <div className="lg:w-[580px] lg:hidden sm:w-full sm:flex z-30  border-t-[1px] border-DarkGray items-center justify-around fixed bottom-0 left-0 bg-Body py-5 text-white text-2xl lg:ml-[330px]">
-          <FontAwesomeIcon
-            icon={faHome}
-            className="cursor-pointer hover:text-Primary  h-full duration-150 "
-          ></FontAwesomeIcon>
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="cursor-pointer hover:text-Primary  h-full duration-150 "
-          ></FontAwesomeIcon>
-          <FontAwesomeIcon
-            icon={faBell}
-            className="cursor-pointer hover:text-Primary  h-full duration-150 "
-          ></FontAwesomeIcon>
-          <FontAwesomeIcon
-            icon={faEnvelope}
-            className="cursor-pointer hover:text-Primary  h-full duration-150 "
-          ></FontAwesomeIcon>
-        </div>
+      <section
+        className={`relative h-full lg:w-[580px] sm:w-full  border-r-[1px] border-DarkGray lg:ml-[330px]`}
+      >
+        {!showNav && (
+          <div className="lg:w-[580px] lg:hidden sm:w-full sm:flex z-30  border-t-[1px] border-DarkGray items-center justify-around fixed bottom-0 left-0 bg-Body py-5 text-white text-2xl lg:ml-[330px]">
+            <FontAwesomeIcon
+              icon={faHome}
+              className="cursor-pointer hover:text-Primary  h-full duration-150 "
+            ></FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faSearch}
+              className="cursor-pointer hover:text-Primary  h-full duration-150 "
+            ></FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faBell}
+              className="cursor-pointer hover:text-Primary  h-full duration-150 "
+            ></FontAwesomeIcon>
+            <FontAwesomeIcon
+              icon={faEnvelope}
+              className="cursor-pointer hover:text-Primary  h-full duration-150 "
+            ></FontAwesomeIcon>
+          </div>
+        )}
+
         <div className="bg-Body z-20 text-2xl w-full lg:p-6 sm:p-2 text-white font-bold flex justify-between items-center sm:border-b-[1px] sm:border-DarkGray lg:border-0">
           <img
             src="https://www.gravatar.com/avatar/1b8fabaa8d66250a7049bdb9ecf44397?s=250&d=mm&r=x"

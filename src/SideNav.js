@@ -10,7 +10,7 @@ import { faQuestionCircle } from "@fortawesome/free-regular-svg-icons";
 const SideNav = ({ toggle }) => {
   return (
     <section
-      className={`fixed h-[100%]  bg-Body z-30 text-white  w-11/12  items-center flex-col border-r-[1px] border-DarkGray`}
+      className={`fixed  overflow-scroll top-0 bottom-0 bg-Body h-full text-white  w-11/12  items-center flex-col border-r-[1px] border-DarkGray z-50`}
     >
       {/* Users Info */}
       <article className="w-full px-3 py-2 border-b border-DarkGray ">
@@ -40,7 +40,7 @@ const SideNav = ({ toggle }) => {
         </div>
       </article>
       {/* Main Nav  1*/}
-      <article className="w-full border-b  border-DarkGray overflow-y-scroll z-30 ">
+      <article className="w-full border-b  border-DarkGray">
         <div className="cursor-pointer flex my-[3px] items-center p-[14px] hover:bg-DarkGray  hover:bg-opacity-20 duration-150">
           {" "}
           <p>
