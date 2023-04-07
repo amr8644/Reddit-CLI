@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	yaml "gopkg.in/yaml.v3"
 	"io/ioutil"
 	"log"
@@ -10,6 +9,7 @@ import (
 	"net/url"
 	"strings"
 )
+
 
 func (c *Config) GetConfig() *Config {
 	yaml_file, err := ioutil.ReadFile("config.yaml")
@@ -26,9 +26,11 @@ func (c *Config) GetConfig() *Config {
 	return c
 }
 
-func GetAccessToken(client *http.Client) Token {
+func GetAccessToken() Token {
 
 	var c Config
+
+    client := http.Client{}
 	c.GetConfig()
 
 	data := url.Values{}
@@ -62,10 +64,6 @@ func GetAccessToken(client *http.Client) Token {
 
 func main() {
 
-	client := &http.Client{}
-	token := GetAccessToken(client)
-
-    client.GetTopPosts()
-	fmt.Println(token)
-
+	token := GetAccessToken()
+	GetTopPosts(token)
 }

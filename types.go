@@ -1,13 +1,5 @@
 package main
 
-import "net/http"
-
-
-
-type HTTP struct{
-    Client *http.Client
-}
-
 
 type Config struct {
 	Client_ID string `yaml:"client_id"`
@@ -22,4 +14,3 @@ type Token struct {
 	Expires      int    `json:"expires_in"`
 	Scope        string `json:"scope"`
 }
-

@@ -1,35 +1,48 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-func (client HTTP) GetTopPosts(token Token) {
+func GetTopPosts(token Token) {
 
-	request, err := http.NewRequest("GET", "https://oauth.reddit.com/golang/top", nil)
+	client := http.Client{}
+
+	request, err := http.NewRequest("GET", "https://oauth.reddit.com/user/genericlemon24/overview", nil)
+
+    var user Redditor
 	if err != nil {
 		log.Fatalln(err)
+
 	}
-	request.Header.Add("Authorization", "bearer"+token.Access_Token)
+
+	request.Header.Set("Authorization", "bearer"+token.Access_Token)
 	request.Header.Set("User-Agent", "ChangeMeClient/0.1 by YourUsername")
-	log.Println("Setting headers...")
-	response, err := client.Client.Do(request)
+	request.Header.Set("Content-Type", "application/json")
+	
+    log.Println("Setting headers...")
+
+	response, err := client.Do(request)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	log.Println("Sending requests...")
+	log.Println("Sending request...")
+
 	defer response.Body.Close()
-	result, err := ioutil.ReadAll(response.Body)
+
+	//	result, err := ioutil.ReadAll(response.Body)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	fmt.Println(string(result))
+	json.NewDecoder(response.Body).Decode(&user)
+
+    fmt.Println(user)
 
 }
