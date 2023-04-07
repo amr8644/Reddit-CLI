@@ -1,6 +1,12 @@
 package main
 
+import "net/http"
 
+
+
+type HTTP struct{
+    Client *http.Client
+}
 
 
 type Config struct {

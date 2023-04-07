@@ -3,14 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/yaml.v3"
+	yaml "gopkg.in/yaml.v3"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
 	"strings"
 )
-
 
 func (c *Config) GetConfig() *Config {
 	yaml_file, err := ioutil.ReadFile("config.yaml")
@@ -65,7 +64,8 @@ func main() {
 
 	client := &http.Client{}
 	token := GetAccessToken(client)
-    fmt.Println(token)
-   GetTopPosts(token) 
+
+    client.GetTopPosts()
+	fmt.Println(token)
 
 }

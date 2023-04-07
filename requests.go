@@ -1,23 +1,22 @@
 package main
 
 import (
-	"net/http"
-
-	"log"
-
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
 )
 
-func (client *http.Client) GetTopPosts(Token token) {
+func (client HTTP) GetTopPosts(token Token) {
 
-	request, err := http.NewRequest("GET", "https://oauth.reddit.com/api/v1/me", nil)
+	request, err := http.NewRequest("GET", "https://oauth.reddit.com/golang/top", nil)
 	if err != nil {
 		log.Fatalln(err)
 	}
 	request.Header.Add("Authorization", "bearer"+token.Access_Token)
 	request.Header.Set("User-Agent", "ChangeMeClient/0.1 by YourUsername")
 	log.Println("Setting headers...")
-	response, err := client.Do(request)
+	response, err := client.Client.Do(request)
 
 	if err != nil {
 		log.Fatalln(err)
