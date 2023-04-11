@@ -1,2 +1,2 @@
 run:
-	go run main.go requests.go types.go users.go
+	go run main.go requests.go auth.go logger.go 

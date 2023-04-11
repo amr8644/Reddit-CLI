@@ -1,31 +1,31 @@
 package main
 
 import (
-	"encoding/json"
+	"bytes"
 	"fmt"
 	"log"
+
 	"net/http"
 )
 
-func GetTopPosts(token Token) {
+func Requests(token Token) {
 
 	client := http.Client{}
 
-	request, err := http.NewRequest("GET", "https://oauth.reddit.com/user/genericlemon24/overview", nil)
+	request, err := http.NewRequest(http.MethodGet, "https://oauth.reddit.com/r/AnimalTracking/new", nil)
 
-    var user Redditor
 	if err != nil {
 		log.Fatalln(err)
-
 	}
 
-	request.Header.Set("Authorization", "bearer"+token.Access_Token)
-	request.Header.Set("User-Agent", "ChangeMeClient/0.1 by YourUsername")
-	request.Header.Set("Content-Type", "application/json")
-	
-    log.Println("Setting headers...")
+	request.Header.Add("Authorization", "Bearer "+token.Access_Token)
+	request.Header.Add("User-Agent", "MyAPI/0.0.1")
+	request.Header.Add("Content-Type", "application/json")
+
+	log.Println("Setting headers...")
 
 	response, err := client.Do(request)
+
 
 	if err != nil {
 		log.Fatalln(err)
@@ -33,16 +33,20 @@ func GetTopPosts(token Token) {
 
 	log.Println("Sending request...")
 
+	if response.StatusCode != http.StatusOK {
+		Error("Error")
+	}
+
 	defer response.Body.Close()
 
-	//	result, err := ioutil.ReadAll(response.Body)
+	buf := new(bytes.Buffer)
+	buf.ReadFrom(response.Body)
+	data := buf.Bytes()
+
+	//json.Unmarshal([]byte(data), &sub)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
-
-	json.NewDecoder(response.Body).Decode(&user)
-
-    fmt.Println(user)
-
+	fmt.Println(string(data))
 }
