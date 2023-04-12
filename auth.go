@@ -1,12 +1,14 @@
 package main
 
-import (
+import(
 	"encoding/json"
-	yaml "gopkg.in/yaml.v3"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"strings"
+
+	yaml "gopkg.in/yaml.v3"
 )
 
 type Config struct {
@@ -26,8 +28,6 @@ type Token struct {
 func (c *Config) GetConfig() *Config {
 	yaml_file, err := ioutil.ReadFile("config.yaml")
 
-	Info("Reading config file...")
-
 	if err != nil {
 		Error(err.Error())
 	}
@@ -38,8 +38,6 @@ func (c *Config) GetConfig() *Config {
 		Error(err.Error())
 	}
 
-	Success("Recieved credentials")
-
 	return c
 
 }
@@ -49,24 +47,21 @@ func Authenticate() Token {
 	var c Config
 
 	client := http.Client{}
-	c.GetConfig()
+	credentials := c.GetConfig()
 
 	data := url.Values{}
 	data.Set("grant_type", "password")
 
-	data.Set("username", c.Username)
-	data.Set("password", c.Password)
-	data.Set("client_id", c.Client_ID)
-	data.Set("secret_id", c.Secret_ID)
+	data.Set("username", credentials.Username)
+	data.Set("password", credentials.Password)
+	data.Set("client_id", credentials.Client_ID)
+	data.Set("secret_id", credentials.Secret_ID)
 
+    fmt.Println(strings.NewReader(data.Encode()))
 	request, err := http.NewRequest("POST", "https://www.reddit.com/api/v1/access_token", strings.NewReader(data.Encode()))
 
-	request.Header.Set("User-Agent", "MyAPI/0.0.1")
-	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	Info("Setting headers...")
-	Info("Requesting access token")
-
+	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	request.Header.Add("User-Agent", "MyAPI/0.0.1")
 	response, err := client.Do(request)
 
 	if err != nil {
@@ -80,6 +75,5 @@ func Authenticate() Token {
 	var token Token
 	json.Unmarshal([]byte(result), &token)
 
-	Success("Recived Access token")
 	return token
 }

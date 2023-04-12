@@ -14,18 +14,18 @@ func Requests(token Token) {
 
 	request, err := http.NewRequest(http.MethodGet, "https://oauth.reddit.com/r/AnimalTracking/new", nil)
 
+	fmt.Println(token.Access_Token)
+	bearer := "Bearer" + token.Token_Type
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	request.Header.Add("Authorization", "Bearer "+token.Access_Token)
+	request.Header.Add("Authorization", bearer)
 	request.Header.Add("User-Agent", "MyAPI/0.0.1")
-	request.Header.Add("Content-Type", "application/json")
 
 	log.Println("Setting headers...")
 
 	response, err := client.Do(request)
-
 
 	if err != nil {
 		log.Fatalln(err)
