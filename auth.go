@@ -36,16 +36,13 @@ func (c *Config) GetConfig() *Config {
 	if err != nil {
 		Error(err.Error())
 	}
-
 	return c
-
 }
 
-func Authenticate() Token {
+func (client *BaseClient) Authenticate() Token {
 
 	var c Config
 
-	client := http.Client{}
 	credentials := c.GetConfig()
 
 	data := url.Values{}
@@ -59,7 +56,7 @@ func Authenticate() Token {
 	request.SetBasicAuth(credentials.Client_ID, credentials.Secret_ID)
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	request.Header.Add("User-Agent", "MyAPI/0.0.1")
-	response, err := client.Do(request)
+	response, err := client.cl.Do(request)
 
 	if err != nil {
 		Error(err.Error())
