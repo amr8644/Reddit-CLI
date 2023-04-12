@@ -1,8 +1,7 @@
 package main
 
-import(
+import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -50,16 +49,14 @@ func Authenticate() Token {
 	credentials := c.GetConfig()
 
 	data := url.Values{}
-	data.Set("grant_type", "password")
 
+	data.Set("grant_type", "password")
 	data.Set("username", credentials.Username)
 	data.Set("password", credentials.Password)
-	data.Set("client_id", credentials.Client_ID)
-	data.Set("secret_id", credentials.Secret_ID)
 
-    fmt.Println(strings.NewReader(data.Encode()))
-	request, err := http.NewRequest("POST", "https://www.reddit.com/api/v1/access_token", strings.NewReader(data.Encode()))
+	request, err := http.NewRequest(http.MethodPost, "https://www.reddit.com/api/v1/access_token", strings.NewReader(data.Encode()))
 
+	request.SetBasicAuth(credentials.Client_ID, credentials.Secret_ID)
 	request.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	request.Header.Add("User-Agent", "MyAPI/0.0.1")
 	response, err := client.Do(request)
@@ -71,9 +68,8 @@ func Authenticate() Token {
 	defer response.Body.Close()
 
 	result, err := ioutil.ReadAll(response.Body)
-
 	var token Token
-	json.Unmarshal([]byte(result), &token)
+	json.Unmarshal([]byte(string(result)), &token)
 
 	return token
 }

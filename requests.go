@@ -1,21 +1,25 @@
 package main
 
 import (
-	"bytes"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
-
 	"net/http"
+	"reddit/cli/types"
 )
 
-func Requests(token Token) {
+var base_url string = "https://oauth.reddit.com/"
 
+func Requests(token Token, username string) {
+
+	var ty types.UserAbout
 	client := http.Client{}
 
-	request, err := http.NewRequest(http.MethodGet, "https://oauth.reddit.com/r/AnimalTracking/new", nil)
+	request, err := http.NewRequest(http.MethodGet, base_url+"user/"+username+"/about", nil)
 
-	fmt.Println(token.Access_Token)
-	bearer := "Bearer" + token.Token_Type
+	bearer := "Bearer " + token.Access_Token
+
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -39,14 +43,18 @@ func Requests(token Token) {
 
 	defer response.Body.Close()
 
-	buf := new(bytes.Buffer)
-	buf.ReadFrom(response.Body)
-	data := buf.Bytes()
+	data, err := ioutil.ReadAll(response.Body)
 
-	//json.Unmarshal([]byte(data), &sub)
+	json.Unmarshal([]byte(data), &ty)
 
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println(string(data))
+
+	fmt.Println(ty)
+}
+
+func UsersAbout(token Token,username string) {
+
+	Requests(token,username)
 }
