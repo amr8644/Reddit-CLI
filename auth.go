@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -28,13 +29,13 @@ func (c *Config) GetConfig() *Config {
 	yaml_file, err := ioutil.ReadFile("config.yaml")
 
 	if err != nil {
-		Error(err.Error())
-	}
+log.Fatalln(err)
+    }
 
 	err = yaml.Unmarshal(yaml_file, c)
 
 	if err != nil {
-		Error(err.Error())
+        log.Fatalln(err)
 	}
 	return c
 }
@@ -59,7 +60,7 @@ func (client *BaseClient) Authenticate() Token {
 	response, err := client.cl.Do(request)
 
 	if err != nil {
-		Error(err.Error())
+        log.Fatalln(err)
 	}
 
 	defer response.Body.Close()
