@@ -1,38 +1,21 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
-	"fmt"
 	"log"
+	"os"
 	"reddit/cli/types"
 )
 
-func (client *BaseClient) UserAbout(token Token, username string) types.UserAbout {
-
-	var user types.UserAbout
-
-	url := "user/" + username + "/about"
-
-	data, err := client.Requests(token, url)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	json.Unmarshal([]byte(data), &user)
-
-	return user
-}
-
-func (client *BaseClient) UserUpvotes(token Token, username string) types.UserUpvotes {
+func (client *BaseClient) UserUpvotes(token Token, username string) {
 
 	var user types.UserUpvotes
-
 	url := "user/" + username + "/upvoted"
 
-	//  records := [][]string{
-	//	{"ID", "SubRedditId", "Name", "Author", "Over18", "SubReddit", "Title", "URL"},
-	//}
+	header := []string{
+		"ID", "SubReddit", "Name", "Author", "SubReddit", "Title", "URL",
+	}
 
 	data, err := client.Requests(token, url)
 
@@ -42,18 +25,18 @@ func (client *BaseClient) UserUpvotes(token Token, username string) types.UserUp
 
 	json.Unmarshal([]byte(data), &user)
 
-	//	f, err := os.OpenFile("data.csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	f, err := os.OpenFile("output/"+username+".csv", os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
 	if err != nil {
 		log.Fatalf("failed creating file: %s", err)
 	}
 
-	for i, v := range user.Data.Children {
-		fmt.Println(i,v)
+	w := csv.NewWriter(f)
+	w.Write(header)
+
+	for _, v := range user.Data.Children {
+		records := []string{
+			v.Data.ID, v.Data.Subreddit, v.Data.Name, v.Data.Author, v.Data.Title, "https://www.reddit.com/" + v.Data.Permalink,
+		}
+		w.Write(records)
 	}
-	//	w := csv.NewWriter(f)
-	//	w.WriteAll(records)
-
-	//q := user.FilterEssentialsData()
-
-	return user
 }

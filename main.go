@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"net/http"
+	"os"
 )
 
 type BaseClient struct {
@@ -19,17 +20,13 @@ func main() {
 
 	client := NewClient()
 
+	os.Mkdir("output",0600)
 	username := flag.String("u", "username", "Username you want search")
-	where := flag.String("w", "about", "The information you want to get")
+//	where := flag.String("w", "about", "The information you want to get")
 	flag.Parse()
 
 	token := client.Authenticate()
-	switch *where {
-	case "upvoted":
-        client.UserUpvotes(token, *username)
-		break
-    case "about":
-        client.UserAbout(token,*username)
-        break
-	}
+
+	client.UserUpvotes(token, *username)
+
 }
