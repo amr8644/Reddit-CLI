@@ -4,3 +4,7 @@ run:
 
 build:
 	go build main.go requests.go auth.go users.go
+
+
+clean:
+	rm -rf output
