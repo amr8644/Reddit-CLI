@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -39,6 +38,5 @@ func (client *BaseClient) Requests(token Token, url string) ([]byte, error) {
 		return nil, err
 
 	}
-	fmt.Println(string(data))
 	return data, nil
 }

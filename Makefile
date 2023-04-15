@@ -1,9 +1,8 @@
 run:
-	go run main.go requests.go auth.go users.go 
-
+	go run main.go requests.go auth.go users.go subreddits.go
 
 build:
-	go build main.go requests.go auth.go users.go
+	go build main.go requests.go auth.go users.go subreddits.go
 
 
 clean:

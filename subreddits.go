@@ -3,19 +3,18 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"reddit/cli/types"
+	"strconv"
 )
 
-
 func (client *BaseClient) SubRedditListing(token Token, subr string, where string, limit string, time string) {
-	var subreddit types.SubRedditListings 
-	url := "r/" + subr + "/" + where + "?limit=" + limit  + "&t=" + time
+	var subreddit types.SubRedditListings
+	url := "r/" + subr + "/" + where + "?limit=" + limit + "&t=" + time
 
 	header := []string{
-		"ID", "Upvotes", "isOver18", "SubReddit", "Name", "Author", "Title", "URL",
+		"ID", "Author", "Title", "DownVotes", "Upvotes", "Over18", "Subscribers", "URL",
 	}
 
 	data, err := client.Requests(token, url)
@@ -33,6 +32,19 @@ func (client *BaseClient) SubRedditListing(token Token, subr string, where strin
 
 	w := csv.NewWriter(f)
 	w.Write(header)
+	for _, v := range subreddit.Data.Children {
+		records := []string{
+			v.Data.ID,
+			v.Data.Author,
+			v.Data.Title,
+			strconv.Itoa(v.Data.Downs),
+			strconv.Itoa(v.Data.Ups),
+			strconv.FormatBool(v.Data.Over18),
+			strconv.Itoa(v.Data.SubredditSubscribers),
+			"https://www.reddit.com/" + v.Data.Permalink,
+		}
+		w.Write(records)
+	}
+	w.Flush()
 
-    fmt.Println(subreddit.Data.Children[0].Data.Subreddit)
 }
