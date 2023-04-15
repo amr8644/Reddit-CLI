@@ -25,7 +25,7 @@ func main() {
 	search := flag.String("type", "user", "one of(user,subreddit)")
 	username := flag.String("user", "username", "Username you want search")
 	subreddit := flag.String("subreddit", "golang", "Subreddit you want search")
-	where := flag.String("where", "about", "one of (upvoted,downvoted,overview,submitted)")
+	where := flag.String("where", "about", "one of (upvoted,downvoted,overview,submitted,about)")
 	limit := flag.String("limit", "25", "the maximum number of items desired (default: 25, maximum: 100)")
 	sort := flag.String("sort", "hot", "one of (hot, new, top, controversial)")
 	time := flag.String("time", "week", "one of (hour, day, week, month, year, all)")
@@ -36,12 +36,12 @@ func main() {
 	if *search == "user" {
 		if *where == "about" {
 			client.UserAbout(token, *username)
-		}
+		} else {
 
-		client.UserPosts(token, *username, *where, *limit, *sort, *time)
-	}
-	if *search == "subreddit" {
-		client.SubRedditListing(token, *subreddit, *where, *limit, *time)
+			client.UserPosts(token, *username, *where, *limit, *sort, *time)
+		}
+	} else if *search == "subreddit" {
+		client.SubRedditListing(token, *subreddit, *sort, *limit, *time)
 	}
 
 }
