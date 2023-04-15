@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/csv"
 	"encoding/json"
-	"fmt"
 	"log"
 	"os"
 	"reddit/cli/types"
@@ -15,7 +14,7 @@ func (client *BaseClient) UserAbout(token Token, username string) {
 	var user types.UserAbout
 	url := "user/" + username + "/about"
 	header := []string{
-		"ID", "Name", "Karma", "URL",
+		"ID","IsEmployee", "Name", "Karma", "Verified", "IsModrator", "DisplayName", "Title", "Over 18", "Description", "Subscribers",
 	}
 
 	data, err := client.Requests(token, url)
@@ -35,11 +34,21 @@ func (client *BaseClient) UserAbout(token Token, username string) {
 	w.Write(header)
 
 	records := []string{
-		user.Data.ID,user.Data.Name ,strconv.Itoa(user.Data.TotalKarma),
+		user.Data.ID,
+		strconv.FormatBool(user.Data.IsEmployee),
+		user.Data.Name,
+		strconv.Itoa(user.Data.TotalKarma),
+		strconv.FormatBool(user.Data.Verified),
+		strconv.FormatBool(user.Data.Subreddit.UserIsModerator),
+		user.Data.Subreddit.DisplayName,
+		user.Data.Subreddit.Title,
+		strconv.FormatBool(user.Data.Subreddit.Over18),
+		user.Data.Subreddit.Description,
+		strconv.Itoa(user.Data.Subreddit.Subscribers),
 	}
 
 	w.Write(records)
-    fmt.Println(records)
+	w.Flush()
 }
 
 func (client *BaseClient) UserPosts(token Token, username string, where string, limit string, sort string, t string) {
@@ -69,8 +78,15 @@ func (client *BaseClient) UserPosts(token Token, username string, where string, 
 
 	for _, v := range user.Data.Children {
 		records := []string{
-			v.Data.ID, strconv.Itoa(v.Data.Ups), strconv.FormatBool(v.Data.Over18), v.Data.Subreddit, v.Data.Author, v.Data.Title, "https://www.reddit.com/" + v.Data.Permalink,
+			v.Data.ID,
+			strconv.Itoa(v.Data.Ups),
+			strconv.FormatBool(v.Data.Over18),
+			v.Data.Subreddit,
+			v.Data.Author,
+			v.Data.Title,
+			"https://www.reddit.com/" + v.Data.Permalink,
 		}
 		w.Write(records)
 	}
+	w.Flush()
 }
